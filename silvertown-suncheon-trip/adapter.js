@@ -14,8 +14,6 @@
     if (r.kind === 'budget') return Number.isInteger(r.memberCount) && r.memberCount >= 1 && r.memberCount <= 20 &&
       Array.isArray(r.expenses) && r.expenses.length <= 200 && r.expenses.every(expenseValid) &&
       new Set(r.expenses.map(e => e.id)).size === r.expenses.length;
-    if (r.kind === 'album') return typeof r.placeId === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(r.placeId) &&
-      typeof r.content === 'string' && r.content.length > 0 && r.content.length <= 2000;
     return false;
   }
   function parseRecord(body) {
@@ -23,13 +21,9 @@
     const match = body.match(/```json\s*([\s\S]*?)\s*```/);
     try { const r = JSON.parse(match && match[1]); return recordValid(r) ? r : null; } catch { return null; }
   }
-  function safePhoto(body) {
-    const candidates = String(body || '').match(/https:\/\/(?:github\.com\/user-attachments\/assets\/|user-images\.githubusercontent\.com\/)[^\s)<>"']+/g);
-    return candidates ? candidates[0] : null;
-  }
   function applyIssues(initial, issues) {
     const state = clone(initial);
-    state.albums = Array.isArray(state.albums) ? state.albums : [];
+
     state.expenses = Array.isArray(state.expenses) ? state.expenses.filter(expenseValid) : [];
     issues.filter(i => !i.pull_request && i.state === 'open').sort((a,b) => a.number-b.number).forEach(issue => {
       const r = parseRecord(issue.body);
@@ -40,11 +34,7 @@
       } else if (r.kind === 'budget') {
         state.memberCount = r.memberCount;
         state.expenses = clone(r.expenses);
-      } else {
-        state.albums.unshift({id:'issue_'+issue.number, placeId:r.placeId, content:r.content,
-          author:issue.user && issue.user.login || 'GitHub', photo:safePhoto(issue.body),
-          timeAgo:issue.created_at, likes:issue.reactions && issue.reactions.heart || 0,
-          commentsCount:issue.comments || 0, comments:[], issueUrl:issue.html_url});
+
       }
     });
     return state;
@@ -67,7 +57,7 @@
       const base='https://api.github.com/repos/'+this.repository;
       const initial=await this.request(base+'/contents/'+this.dataPath,{Accept:'application/vnd.github.raw+json'});
       if (initial.schemaVersion!==1 || !Array.isArray(initial.expenses) || !initial.expenses.every(expenseValid) ||
-          !Array.isArray(initial.albums) || !Number.isInteger(initial.memberCount) || initial.memberCount<1 || initial.memberCount>20)
+          !Number.isInteger(initial.memberCount) || initial.memberCount<1 || initial.memberCount>20)
         throw Error('저장된 데이터 형식을 확인해주세요.');
       const issues=[];
       for(let page=1;page<=10;page++) {
@@ -81,9 +71,9 @@
     }
     submissionURL(record) {
       if(!recordValid(record)) throw Error('등록할 내용을 확인해주세요.');
-      const title='[여행기록] '+({album:'사진·후기',expense:'지출',budget:'공금 상태'}[record.kind]);
+      const title='[여행기록] '+({expense:'지출',budget:'공금 상태'}[record.kind]);
       const body=MARKER+'\n```json\n'+JSON.stringify(record,null,2)+'\n```\n\n'+
-        '사진은 이 아래에 첨부해주세요. 위 데이터 블록은 유지해주세요.\n';
+        '위 데이터 블록을 유지하고 등록을 확정해주세요.\n';
       const url='https://github.com/'+this.repository+'/issues/new?'+new URLSearchParams({title,body});
       if(url.length>7500) throw Error('내용이 너무 깁니다. 내용을 줄여서 등록해주세요.');
       return url;
