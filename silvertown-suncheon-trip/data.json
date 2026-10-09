@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "memberCount": 5,
+  "poolPerPerson": 200000,
+  "fixedCosts": {
+    "trainPerPerson": 68200,
+    "trainTotal": 341000,
+    "stayPerPerson": 44200,
+    "stayTotal": 221000,
+    "perPerson": 112400,
+    "total": 562000,
+    "paid": true,
+    "deductFromPool": false
+  },
+  "expenses": [
+    {
+      "id": "exp_1",
+      "title": "Day 1 점심: 성일식당 (60년 전통 돌곱창전골 5인+볶음밥)",
+      "cost": 65000,
+      "checked": true
+    },
+    {
+      "id": "exp_2",
+      "title": "Day 1 디저트: 구디스 파이 & 달노루과자점(픽업)",
+      "cost": 48000,
+      "checked": true
+    },
+    {
+      "id": "exp_3",
+      "title": "Day 1 오후: 순천만습지 갈대밭 5인 입장료",
+      "cost": 50000,
+      "checked": true
+    },
+    {
+      "id": "exp_4",
+      "title": "Day 1 저녁: 대영포차 (15:30 예약! 야들야들 수육 대 2개)",
+      "cost": 80000,
+      "checked": true
+    },
+    {
+      "id": "exp_5",
+      "title": "Day 2 점심: 나눌터 (11:30 오픈! 묵보쌈세트+들깨임자탕)",
+      "cost": 86000,
+      "checked": true
+    },
+    {
+      "id": "exp_6",
+      "title": "Day 2 오후: 순천만 국가정원 관람 (통합권/산책)",
+      "cost": 0,
+      "checked": true
+    },
+    {
+      "id": "exp_7",
+      "title": "Day 2 간식: 조훈모과자점 팔마점 (배빵+우주빵+음료)",
+      "cost": 32000,
+      "checked": true
+    },
+    {
+      "id": "exp_8",
+      "title": "Day 2 체험: 순천 드라마촬영장 7080 레트로 교복 대여 (5인)",
+      "cost": 15000,
+      "checked": true
+    },
+    {
+      "id": "exp_9",
+      "title": "Day 2 저녁: 홍성준양푼갈비 (양푼갈비 4인+치즈볶음밥)",
+      "cost": 74000,
+      "checked": true
+    },
+    {
+      "id": "exp_10",
+      "title": "Day 2 야식: 아리랑 냉채족발 (숙소 포장 파티)",
+      "cost": 42000,
+      "checked": true
+    },
+    {
+      "id": "exp_11",
+      "title": "Day 3 간식: 순천역 역전시장 찹쌀도넛 & 시장 과일",
+      "cost": 20000,
+      "checked": true
+    }
+  ],
+  "albums": []
+}
