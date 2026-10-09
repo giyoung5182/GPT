@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "memberCount": 5,
+  "poolPerPerson": 0,
+  "fixedCosts": {
+    "paid": false,
+    "deductFromPool": false
+  },
+  "expenses": [],
+  "albums": []
+}
